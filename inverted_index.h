@@ -63,12 +63,12 @@ int display_DB (main_node_t**);
 void display (main_node_t*, int);
 
 /*search */
-int search_DB (main_node_t **head, char *word);
+int search_DB (main_node_t**, char*);
+
+/*Update */
+int update_DB (file_node_t**, main_node_t**, char*);
 
 /*Save*/
 int save_DB (main_node_t **head, char *fname);
-
-/*Update */
-int update_DB (file_node_t **, main_node_t **, char *);
 
 #endif

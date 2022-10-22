@@ -77,7 +77,7 @@ int update_link_table (main_node_t** head, char* word, char* f_name)
 	main_node_t* temp1 = *head;
 	while (temp1 != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
 	{
-		if (strncmp (temp1->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, insert the File details.
+		if (strncmp (temp1->word, word, BUFF_SIZE) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, insert the File details.
 		{
 			sub_node_t* temp2 = temp1->sub_link;
 			while (temp2->link != NULL)		///The loop shall run till the end of the Sub-List of the particular Word.
@@ -104,12 +104,12 @@ int update_word_count (main_node_t **head, char* word, char* f_name)
 	main_node_t* temp1 = *head;
 	while (temp1 != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
 	{
-		if (strncmp (temp1->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, insert the File details.
+		if (strncmp (temp1->word, word, BUFF_SIZE) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, insert the File details.
 		{
 			sub_node_t* temp2 = temp1->sub_link;
 			while (temp2 != NULL)		///The loop shall run till the end of the Sub-List of the particular Word.
 			{
-				if (strncmp (temp2->f_name, f_name, (strlen (f_name))) == 0)	//If the 'f_name' matches with the existing files stored in the List, update the Word Count for the File.
+				if (strncmp (temp2->f_name, f_name, NAMELENGTH) == 0)	//If the 'f_name' matches with the existing files stored in the List, update the Word Count for the File.
 				{
 					printf ("Word: %s\tFile: %s\tCount: %d\tLength: %lu\n", word, f_name, temp2->w_count, strlen (word));
 					temp2->w_count += 1;	//If the Word & the File details are matched successfully, increment the Word Count in the particular File by 1.

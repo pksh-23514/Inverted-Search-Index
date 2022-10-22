@@ -34,7 +34,7 @@ void display (main_node_t* temp1, int index)
 			temp2 = temp2->link;	//Update the 'temp2' to point to the Next node.
 
 			if (temp2 != NULL)	//If we have not reached the end of the List, then print the Separator.
-			printf (": ");
+			printf (":\t");
 		}
 		
 		printf ("-> NULL\n");	//Signifies the end of the Sub-List.

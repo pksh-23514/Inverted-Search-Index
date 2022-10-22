@@ -28,7 +28,7 @@ int main (int argc, char* argv [])
 			ret = display_DB (HT);
 			printf ("INFO: Successful Creation.\n");
 		}
-
+/*
 		char word [BUFF_SIZE];
 		printf ("Enter the word to be searched: ");
 		scanf ("%s", word);
@@ -36,6 +36,16 @@ int main (int argc, char* argv [])
 		if (ret == SUCCESS)
 		{
 			printf ("INFO: Search Successful.\n");
+		}
+*/
+		char f_name [NAMELENGTH];
+		printf ("Enter the File Name to be Updated in the Database: ");
+		scanf ("%s", f_name);
+		ret = update_DB (&files_H, HT, f_name);
+		if (ret == SUCCESS)
+		{
+			ret = display_DB (HT);
+			printf ("INFO: Update Successful.\n");
 		}
 		//Call the process function.
 	}
