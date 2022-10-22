@@ -16,7 +16,7 @@ void validate_n_store_filenames (file_node_t** files_h, char* filenames[])
 				ret = store_filenames_to_list (filenames [i], files_h);
 				if (ret == SUCCESS)		//If the File name is added to the File List successfully, print a confirmation message.
 				{
-					printf ("INFO: Validation of File %s successful\n", filenames [i]);
+					printf ("INFO: Validation of File %s successful.\n", filenames [i]);
 				}
 			}
 		}
@@ -67,7 +67,7 @@ int IsFileDuplicate (char* filename, file_node_t** head)
 	{
 		if ((strncmp (filename, temp->f_name, NAMELENGTH)) == 0)	//If the File Name in File List matches with the given 'filename'; it is not required to insert it again.
 		{
-			printf ("ERROR: The File %s is repeated\nSo, this File cannot be added into the Database.\n", filename);
+			printf ("ERROR: The File %s is repeated.\nSo, this File cannot be added into the Database.\n", filename);
 			return REPEATED;
 		}
 		

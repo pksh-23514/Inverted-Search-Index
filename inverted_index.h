@@ -59,7 +59,8 @@ int update_link_table (main_node_t**, char*, char*);
 int update_word_count (main_node_t**, char*, char*);
 
 /*Display*/
-int display_DB (main_node_t **head);
+int display_DB (main_node_t**);
+void display (main_node_t*, int);
 
 /*search */
 int search_DB (main_node_t **head, char *word);
