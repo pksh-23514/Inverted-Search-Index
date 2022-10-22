@@ -28,6 +28,15 @@ int main (int argc, char* argv [])
 			ret = display_DB (HT);
 			printf ("INFO: Successful Creation.\n");
 		}
+
+		char word [BUFF_SIZE];
+		printf ("Enter the word to be searched: ");
+		scanf ("%s", word);
+		ret = search_DB (HT, word);
+		if (ret == SUCCESS)
+		{
+			printf ("INFO: Search Successful.\n");
+		}
 		//Call the process function.
 	}
 
