@@ -26,7 +26,7 @@ int main (int argc, char* argv [])
 		if (ret == SUCCESS)
 		{
 			ret = display_DB (HT);
-			printf ("Successful Creation.\n");
+			printf ("INFO: Successful Creation.\n");
 		}
 		//Call the process function.
 	}

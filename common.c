@@ -16,7 +16,7 @@ void validate_n_store_filenames (file_node_t** files_h, char* filenames[])
 				ret = store_filenames_to_list (filenames [i], files_h);
 				if (ret == SUCCESS)		//If the File name is added to the File List successfully, print a confirmation message.
 				{
-					printf ("Validation of File %s successful\n", filenames [i]);
+					printf ("INFO: Validation of File %s successful\n", filenames [i]);
 				}
 			}
 		}
@@ -88,4 +88,62 @@ int store_filenames_to_list (char* f_name, file_node_t** head)
 	}
 	
 	return SUCCESS;
+}
+
+int get_key (char f_char)
+{
+	/* Hash Function for the Hash Table = Data % {65 (Upper-case) or 97 (Lower-case)}
+	   If the string is a Special character or Digits; store in the separate Key.
+	 */
+
+	if (isalpha (f_char))	//If the First character is an Alphabet; the Key will have a value between 0 to 25.
+	{
+		f_char = (char) toupper (f_char);
+		return (f_char % 65);
+	}
+	else if (isdigit (f_char))	//If the First character is a Digit; the Key will have a value of 26.
+	{
+		return 26;
+	}
+	else	//If the First character is a Special Character; the Key will have a value of 27.
+	{
+		return 27;
+	}
+}
+
+/* */
+int check_word (char* word, main_node_t* head)
+{
+	while (head != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
+	{
+		if (strncmp (head->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, it is not required to insert it again.
+			return REPEATED;
+
+		head = head->link;	//Update the 'head' to point to the Next node.
+	}
+
+	return FAILURE;
+}
+
+/* */
+int check_file (char* f_name, char* word, main_node_t* head)
+{
+	while (head != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
+	{
+		if (strncmp (head->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, check for the File details in the Sub-List.
+		{
+			sub_node_t* temp = head->sub_link;
+			while (temp != NULL)	//The loop shall run till all the Files in the List for the particular Word are compared with 'f_name'.
+			{
+				if (strncmp (temp->f_name, f_name, (strlen (f_name))) == 0)		//If the 'f_name' matches with the existing files stored in the List, it is not required to insert it again.
+					return REPEATED;
+				
+				temp = temp->link;	//Update the 'temp' to point to the Next node.
+			}
+		}
+
+		head = head->link;	//Update the 'head' to point to the Next node.
+	}
+
+	return FAILURE;
 }

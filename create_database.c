@@ -34,56 +34,94 @@ void read_datafile (main_node_t** head, char* f_name)
 
 		key = get_key (buffer [0]);		//To calculate the Index in the Hash Table where this string shall be inserted.
 
-		ret = check_word (buffer, head [key]);		//To check if the Word is already present in the Database.
-		if (ret == FAILURE)
+		ret = check_word (buffer, head [key]);
+		if (ret == FAILURE)		//If the Word is not present in the Database, it shall be inserted as a New Word in the Database.
 		{
-			ret = insert_at_last_main (&head [key], buffer, f_name);	//To insert the Word in the Database.
+			ret = insert_at_last_main (&head [key], buffer, f_name);
 			if (ret == FAILURE)		//If the Word is not added, the process shall terminate.
 			{
 				printf ("ERROR: Unable to add the Word \"%s\" in the Database.\n", buffer);
 				return;
 			}
 		}
-		else
+		else	//If the Word is already present in the Database, then the Sub-List shall be checked if the File details are already present or not.
 		{
-			printf ("Repeated Word: %s\n", buffer);
+			ret = check_file (f_name, buffer, head [key]);
+			if (ret == FAILURE)		//If the File details of the particular Word is not present in the Sub-List, is shall be inserted as a New File details in the Database.
+			{
+				ret = update_link_table (&head [key], buffer, f_name);
+				if (ret == FAILURE)		//If the File details are not added, the process shall terminate.
+				{
+					printf ("ERROR: Unable to add the File \"%s\" details for the Word \"%s\" in the Database.\n", f_name, buffer);
+					return;
+				}
+			}
+			else	//If the File details are already present in the Sub-List, the Word count shall be updated in the Database.
+			{
+				ret = update_word_count (&head [key], buffer, f_name);
+				if (ret == FAILURE)
+				{
+					printf ("ERROR: Unable to Update the Word Count for the Word \"%s\" in the File \"%s\".\n", buffer, f_name);
+					return;
+				}
+			}
 		}
 	} while (val != EOF);	//The loop shall run till we reach the End of the File.
 
 	return;
 }
 
-int get_key (char f_char)
+/* */
+int update_link_table (main_node_t** head, char* word, char* f_name)
 {
-	/* Hash Function for the Hash Table = Data % {65 (Upper-case) or 97 (Lower-case)}
-	   If the string is a Special character or Digits; store in the separate Key.
-	 */
+	main_node_t* temp1 = *head;
+	while (temp1 != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
+	{
+		if (strncmp (temp1->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, insert the File details.
+		{
+			sub_node_t* temp2 = temp1->sub_link;
+			while (temp2->link != NULL)		///The loop shall run till the end of the Sub-List of the particular Word.
+			{
+				temp2 = temp2->link;	//Update the 'temp2' to point to the Next node.
+			}
+			
+			temp2->link = create_sub_node (f_name);		//Insert the File details as the Last Node of the Sub-List of the particular Word.
+			if (temp2->link == NULL)	//Error Handling.
+				return FAILURE;
+			else
+				temp1->f_count += 1;	//If the File details are added successfully, increment the File Count in the Node of the particular Word by 1.
+		}
 
-	if (isalpha (f_char))	//If the First character is an Alphabet; the Key will have a value between 0 to 25.
-	{
-		f_char = (char) toupper (f_char);
-		return (f_char % 65);
+		temp1 = temp1->link;	//Update the 'temp1' to point to the Next node.
 	}
-	else if (isdigit (f_char))	//If the First character is a Digit; the Key will have a value of 26.
-	{
-		return 26;
-	}
-	else	//If the First character is a Special Character; the Key will have a value of 27.
-	{
-		return 27;
-	}
+	
+	return SUCCESS;
 }
 
 /* */
-int check_word (char* word, main_node_t* head)
+int update_word_count (main_node_t **head, char* word, char* f_name)
 {
-	while (head != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
+	main_node_t* temp1 = *head;
+	while (temp1 != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
 	{
-		if (strncmp (head->word, word, (strlen (word))) == 0)	//If the Word matches with the exisiting words stored in the List of the Key, it is not required to insert it again.
-			return REPEATED;
+		if (strncmp (temp1->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, insert the File details.
+		{
+			sub_node_t* temp2 = temp1->sub_link;
+			while (temp2 != NULL)		///The loop shall run till the end of the Sub-List of the particular Word.
+			{
+				if (strncmp (temp2->f_name, f_name, (strlen (f_name))) == 0)	//If the 'f_name' matches with the existing files stored in the List, update the Word Count for the File.
+				{
+					printf ("Word: %s\tFile: %s\tCount: %d\tLength: %lu\n", word, f_name, temp2->w_count, strlen (word));
+					temp2->w_count += 1;	//If the Word & the File details are matched successfully, increment the Word Count in the particular File by 1.
+					return SUCCESS;
+				}
 
-		head = head->link;	//Update the 'head' to point to the Next node.
+				temp2 = temp2->link;    //Update the 'temp2' to point to the Next node.
+			}
+		}
+
+		temp1 = temp1->link;	//Update the 'temp1' to point to the Next node.
 	}
-
+	
 	return FAILURE;
 }

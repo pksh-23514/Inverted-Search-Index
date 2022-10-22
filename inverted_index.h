@@ -54,8 +54,9 @@ int get_key (char);
 int check_word (char*, main_node_t*);
 int insert_at_last_main (main_node_t**, char*, char*);
 sub_node_t* create_sub_node (char*);
-int update_link_table (main_node_t **main_node);
-int update_word_count (main_node_t **head);
+int check_file (char*, char*, main_node_t*);
+int update_link_table (main_node_t**, char*, char*);
+int update_word_count (main_node_t**, char*, char*);
 
 /*Display*/
 int display_DB (main_node_t **head);
