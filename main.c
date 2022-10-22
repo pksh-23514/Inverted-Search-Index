@@ -26,18 +26,18 @@ int main (int argc, char* argv [])
 		if (ret == SUCCESS)
 		{
 			ret = display_DB (HT);
-			printf ("INFO: Successful Creation.\n");
+			printf ("INFO: Database Creation Successful.\n");
 		}
-/*
+
 		char word [BUFF_SIZE];
 		printf ("Enter the word to be searched: ");
 		scanf ("%s", word);
 		ret = search_DB (HT, word);
 		if (ret == SUCCESS)
 		{
-			printf ("INFO: Search Successful.\n");
+			printf ("INFO: Word Search Successful.\n");
 		}
-*/
+
 		char f_name [NAMELENGTH];
 		printf ("Enter the File Name to be Updated in the Database: ");
 		scanf ("%s", f_name);
@@ -45,7 +45,15 @@ int main (int argc, char* argv [])
 		if (ret == SUCCESS)
 		{
 			ret = display_DB (HT);
-			printf ("INFO: Update Successful.\n");
+			printf ("INFO: Database Update Successful.\n");
+		}
+
+		printf ("Enter the File Name to which the Database will be stored: ");
+		scanf ("%s", f_name);
+		ret = save_DB (HT, f_name);
+		if (ret == SUCCESS)
+		{
+			printf ("INFO: Database Store Successful.\n");
 		}
 		//Call the process function.
 	}

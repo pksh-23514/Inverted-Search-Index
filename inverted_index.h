@@ -69,6 +69,7 @@ int search_DB (main_node_t**, char*);
 int update_DB (file_node_t**, main_node_t**, char*);
 
 /*Save*/
-int save_DB (main_node_t **head, char *fname);
+int save_DB (main_node_t**, char*);
+int check_name (char*);
 
 #endif
