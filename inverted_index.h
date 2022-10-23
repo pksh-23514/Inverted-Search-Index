@@ -60,7 +60,8 @@ int update_word_count (main_node_t**, char*, char*);
 
 /*Display*/
 int display_DB (main_node_t**);
-void display (main_node_t*, int);
+void display_words (main_node_t*, int);
+void display_files (sub_node_t*);
 
 /*search */
 int search_DB (main_node_t**, char*);

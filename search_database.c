@@ -7,9 +7,19 @@ int search_DB (main_node_t **head, char *word)
 	int ret = check_word (word, head [index]);	//To check if the given 'word' is present at the calculated Key in the Database.
 	if (ret == REPEATED)	//If the Word is present in the Database, the 'ret' will have the value of REPEATED.
 	{
-		printf ("Word \"%s\" is present in the Database:\n", word);
-		display (head [index], index);	//Display the Word & File details stored in the Database for the given 'word'.
-		return SUCCESS;
+		main_node_t* temp = head [index];
+		while (temp != NULL)
+		{
+			if (strncmp (temp->word, word, BUFF_SIZE) == 0)
+			{
+				printf ("Word \"%s\" is found in the Database and is present in %d File(s).\n", word, temp->f_count);
+				display_files (temp->sub_link);
+				printf ("\n");
+				return SUCCESS;
+			}
+
+			temp = temp->link;
+		}
 	}
 	else	//If the Word is not present in the Database, the 'ret' will have the value of FAILURE.
 	{

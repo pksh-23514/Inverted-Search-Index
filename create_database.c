@@ -111,7 +111,6 @@ int update_word_count (main_node_t **head, char* word, char* f_name)
 			{
 				if (strncmp (temp2->f_name, f_name, NAMELENGTH) == 0)	//If the 'f_name' matches with the existing files stored in the List, update the Word Count for the File.
 				{
-					printf ("Word: %s\tFile: %s\tCount: %d\tLength: %lu\n", word, f_name, temp2->w_count, strlen (word));
 					temp2->w_count += 1;	//If the Word & the File details are matched successfully, increment the Word Count in the particular File by 1.
 					return SUCCESS;
 				}

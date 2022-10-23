@@ -116,7 +116,7 @@ int check_word (char* word, main_node_t* head)
 {
 	while (head != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
 	{
-		if (strncmp (head->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, it is not required to insert it again.
+		if (strncmp (head->word, word, BUFF_SIZE) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, it is not required to insert it again.
 			return REPEATED;
 
 		head = head->link;	//Update the 'head' to point to the Next node.
@@ -130,12 +130,12 @@ int check_file (char* f_name, char* word, main_node_t* head)
 {
 	while (head != NULL)	//The loop shall run till all the Words in the List of the Key are compared with 'word'.
 	{
-		if (strncmp (head->word, word, (strlen (word))) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, check for the File details in the Sub-List.
+		if (strncmp (head->word, word, BUFF_SIZE) == 0)	//If the 'word' matches with the exisiting Words stored in the List of the Key, check for the File details in the Sub-List.
 		{
 			sub_node_t* temp = head->sub_link;
 			while (temp != NULL)	//The loop shall run till all the Files in the List for the particular Word are compared with 'f_name'.
 			{
-				if (strncmp (temp->f_name, f_name, (strlen (f_name))) == 0)		//If the 'f_name' matches with the existing files stored in the List, it is not required to insert it again.
+				if (strncmp (temp->f_name, f_name, NAMELENGTH) == 0)		//If the 'f_name' matches with the existing files stored in the List, it is not required to insert it again.
 					return REPEATED;
 				
 				temp = temp->link;	//Update the 'temp' to point to the Next node.
