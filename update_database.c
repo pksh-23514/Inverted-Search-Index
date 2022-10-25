@@ -15,7 +15,7 @@ int update_DB (file_node_t** files_h, main_node_t** head, char* f_name)
 				
 				read_datafile (head, f_name);	//The function call to read all the Words in the given 'f_name' File.
 
-				printf ("INFO: The Database for the the File %s is created successfully.\n", f_name);
+				printf ("INFO: Database creation for the File %s Successful.\n", f_name);
 
 				return SUCCESS;
 			}

@@ -16,7 +16,7 @@ void validate_n_store_filenames (file_node_t** files_h, char* filenames[])
 				ret = store_filenames_to_list (filenames [i], files_h);
 				if (ret == SUCCESS)		//If the File name is added to the File List successfully, print a confirmation message.
 				{
-					printf ("INFO: Validation of File %s successful.\n", filenames [i]);
+					printf ("INFO: The File %s is added to the List successfully.\n", filenames [i]);
 				}
 			}
 		}
@@ -25,7 +25,9 @@ void validate_n_store_filenames (file_node_t** files_h, char* filenames[])
 
 	if (*files_h == NULL)	//If no File is added to the File Name List; print an error message and terminate the Operation.
 	{
-		printf ("ERROR: There is no Valid File passed as Input.\nPlease enter names of Valid Files only.\n");
+		printf ("ERROR: There is no Valid File passed as Input.\nINFO: Please enter names of Valid Files only.\n");
+
+		exit (0);	//To Terminate the entire Operation as there are no Valid Files to be operated on.
 	}
 
 	return;
@@ -47,7 +49,7 @@ int IsFileValid (char* filename)
 
 		if (pos == 0)	//If the File is Empty i.e. the end position of the File is '0'; the particular File cannot be added to the Database.
 		{
-			printf ("ERROR: The File %s is an Empty File.\nSo, this File cannot be added into the Database.\n", filename);
+			printf ("ERROR: The File %s is an Empty File.\nINFO: So, this File cannot be added into the Database.\n", filename);
 			return FILE_EMPTY;
 		}
 		else

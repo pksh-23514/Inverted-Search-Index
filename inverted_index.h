@@ -40,6 +40,8 @@ typedef struct file_node
     struct file_node *link;
 } file_node_t;
 
+int command_handler (char* []);
+
 /* File validation */
 void validate_n_store_filenames (file_node_t**, char* []);
 int IsFileValid (char*);

@@ -2,19 +2,23 @@
 
 int display_DB (main_node_t** head)
 {
-	int i = 0;
+	int i = 0, flag = 0;
 
 	while (i < SIZE)	//The loop shall run to go through the Complete Database and print each Word in each File.
 	{
 		if (head [i] != NULL)	//If the particular Key has no words, then that Key shall be ignored.
 		{
 			display_words (head [i], i);
+			flag = 1;
 		}
 
 		i += 1; //Update the Key value to go to the next Word in the List.
 	}
 
-	return SUCCESS;
+	if (flag == 0)		//If the Database is empty, none of the Keys will be printed (as their Heads will be NULL).
+		return FAILURE;
+	else
+		return SUCCESS;
 }
 
 void display_words (main_node_t* temp1, int index)

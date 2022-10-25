@@ -7,6 +7,7 @@ int create_DB (file_node_t* file_head, main_node_t** head)
 	{
 		read_datafile (head, file_head->f_name);	//The function call to read all the Words in the particular File.
 
+		printf ("INFO: Database creation for the File %s Successful.\n", file_head->f_name);
 		file_head = file_head->link;	//Update the 'file_head' to point to the Next node.
 	}
 
@@ -31,43 +32,50 @@ void read_datafile (main_node_t** head, char* f_name)
 	{
 		memset (buffer, '\0', BUFF_SIZE);	//To reset the Buffer with '\0' before reading the next string from the File.
 		val = fscanf (fptr, "%s", buffer);
-
-		key = get_key (buffer [0]);		//To calculate the Index in the Hash Table where this string shall be inserted.
-
-		ret = check_word (buffer, head [key]);
-		if (ret == FAILURE)		//If the Word is not present in the Database, it shall be inserted as a New Word in the Database.
+		if (val != 0)	//Error Handling for 'fscanf()'.
 		{
-			ret = insert_at_last_main (&head [key], buffer, f_name);
-			if (ret == FAILURE)		//If the Word is not added, the process shall terminate.
+			if ((strlen (buffer)) != 0)		//To check if the Word read from the File is Valid or not.
 			{
-				printf ("ERROR: Unable to add the Word \"%s\" in the Database.\n", buffer);
-				return;
-			}
-		}
-		else	//If the Word is already present in the Database, then the Sub-List shall be checked if the File details are already present or not.
-		{
-			ret = check_file (f_name, buffer, head [key]);
-			if (ret == FAILURE)		//If the File details of the particular Word is not present in the Sub-List, is shall be inserted as a New File details in the Database.
-			{
-				ret = update_link_table (&head [key], buffer, f_name);
-				if (ret == FAILURE)		//If the File details are not added, the process shall terminate.
+				key = get_key (buffer [0]);		//To calculate the Index in the Hash Table where this string shall be inserted.
+				
+				ret = check_word (buffer, head [key]);
+				if (ret == FAILURE)		//If the Word is not present in the Database, it shall be inserted as a New Word in the Database.
 				{
-					printf ("ERROR: Unable to add the File \"%s\" details for the Word \"%s\" in the Database.\n", f_name, buffer);
-					return;
+					ret = insert_at_last_main (&head [key], buffer, f_name);
+					if (ret == FAILURE)		//If the Word is not added, the process shall terminate.
+					{
+						printf ("ERROR: Unable to add the Word \"%s\" in the Database.\n", buffer);
+						return;
+					}
 				}
-			}
-			else	//If the File details are already present in the Sub-List, the Word count shall be updated in the Database.
-			{
-				ret = update_word_count (&head [key], buffer, f_name);
-				if (ret == FAILURE)
+				else	//If the Word is already present in the Database, then the Sub-List shall be checked if the File details are already present or not.
 				{
-					printf ("ERROR: Unable to Update the Word Count for the Word \"%s\" in the File \"%s\".\n", buffer, f_name);
-					return;
+					ret = check_file (f_name, buffer, head [key]);
+					if (ret == FAILURE)		//If the File details of the particular Word is not present in the Sub-List, is shall be inserted as a New File details in the Database.
+					{
+						ret = update_link_table (&head [key], buffer, f_name);
+						if (ret == FAILURE)		//If the File details are not added, the process shall terminate.
+						{
+							printf ("ERROR: Unable to add the File \"%s\" details for the Word \"%s\" in the Database.\n", f_name, buffer);
+							return;
+						}
+						
+					}
+					else	//If the File details are already present in the Sub-List, the Word count shall be updated in the Database.
+					{
+						ret = update_word_count (&head [key], buffer, f_name);
+						if (ret == FAILURE)
+						{
+							printf ("ERROR: Unable to Update the Word Count for the Word \"%s\" in the File \"%s\".\n", buffer, f_name);
+							return;
+						}
+					}
 				}
 			}
 		}
 	} while (val != EOF);	//The loop shall run till we reach the End of the File.
 
+	fclose (fptr);	//Close the opened File.
 	return;
 }
 

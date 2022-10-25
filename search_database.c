@@ -1,6 +1,6 @@
 #include "inverted_index.h"
 
-int search_DB (main_node_t **head, char *word)
+int search_DB (main_node_t** head, char* word)
 {
 	int index = get_key (word [0]);	//To get the Key for the given 'word'.
 
@@ -12,7 +12,7 @@ int search_DB (main_node_t **head, char *word)
 		{
 			if (strncmp (temp->word, word, BUFF_SIZE) == 0)
 			{
-				printf ("Word \"%s\" is found in the Database and is present in %d File(s).\n", word, temp->f_count);
+				printf ("INFO: Word \"%s\" is found in the Database and is present in %d File(s).\n", word, temp->f_count);
 				display_files (temp->sub_link);
 				printf ("\n");
 				return SUCCESS;
@@ -23,7 +23,7 @@ int search_DB (main_node_t **head, char *word)
 	}
 	else	//If the Word is not present in the Database, the 'ret' will have the value of FAILURE.
 	{
-		printf ("Word \"%s\" is not present in the Database.\n", word);
+		printf ("ERROR: Word \"%s\" is not present in the Database.\n", word);
 		return FAILURE;
 	}
 }
