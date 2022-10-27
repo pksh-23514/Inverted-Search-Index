@@ -1,6 +1,11 @@
 #include "inverted_index.h"
 
-/* */
+/* To Save the Current Database into a given File
+ * Input: Hash Table and File Name
+ * Output: File having Hash Table details in a particular Format
+ * Return: SUCCESS or FAILURE
+ */
+
 int save_DB (main_node_t **head, char *fname)
 {
 	char name [NAMELENGTH];
@@ -13,29 +18,29 @@ int save_DB (main_node_t **head, char *fname)
 	}
 		
 	FILE* fptr = fopen (name, "w");
-	if (fptr == NULL)	//Error Handling.
+	if (fptr == NULL)		//Error Handling.
 	{
-		printf ("ERROR: Unable to open the File %s.\n", name);
+		printf (RED "ERROR: Unable to open the File %s.\n" RESET, name);
 		return FAILURE;
 	}
 
 	int i = 0;
 
-	while (i < SIZE)	//The loop shall run to go through the Complete Database and store each Word of each File in the File.
+	while (i < SIZE)		//The loop shall run to go through the Complete Database and store each Word of each File in the File.
 	{
 		if (head [i] != NULL)	//If the particular Key has no words, then that Key shall be ignored.
 		{
 			main_node_t* temp1 = head [i];
 			fprintf (fptr, "#%d;\n", i);
 
-			while (temp1 != NULL)	//The loop shall run till we reach the end of the Word List.
+			while (temp1 != NULL)			//The loop shall run till we reach the end of the Word List.
 			{
 				fprintf (fptr, "%s;", temp1->word);
 				fprintf (fptr, "%d;", temp1->f_count);
 				
 				sub_node_t* temp2 = temp1->sub_link;
 				
-				while (temp2 != NULL)	//The loop shall run till we reach the end of the Sub-List.
+				while (temp2 != NULL)		//The loop shall run till we reach the end of the Sub-List.
 				{
 					fprintf (fptr, "%s;", temp2->f_name);
 					fprintf (fptr, "%d;", temp2->w_count);
@@ -43,18 +48,22 @@ int save_DB (main_node_t **head, char *fname)
 				}
 
 				fprintf (fptr, "#\n");
-				temp1 = temp1->link;	//Update the 'temp1' to point to the Next node.
+				temp1 = temp1->link;		//Update the 'temp1' to point to the Next node.
 			}
 		}
 
-		i += 1;	//Update the Key value to go to the next Word in the List.
+		i += 1;		//Update the Key value to go to the next Word in the List.
 	}
 
-	fclose (fptr);	//Close the File Opened.
+	fclose (fptr);		//Close the File Opened.
 	return SUCCESS;
 }
 
-/* */
+/* To Check if the given File Name has any Extension or not
+ * Input: File Name
+ * Output: File Name with Extension
+ * Return Value: SUCCESS or FAILURE
+ */
 int check_name (char* fname)
 {
 	char* str = strstr (fname, ".");	//If the Extension is absent from the File Name, the value stored in 'str' will be NULL.
