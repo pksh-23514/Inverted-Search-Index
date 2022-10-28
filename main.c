@@ -79,14 +79,21 @@ int command_handler (char* argv [])
 				break;
 			case 4:		/* Update Database Operation to fill the Words of a New File in the Database. */
 				{
-					char f_name [NAMELENGTH];
-					printf (PURPLE "INPUT: Enter the File Name to be Updated in the Database: " RESET);
-					scanf ("%s", f_name);	//To read the File Name to be updated in the Database.
-
-					ret = update_DB (&files_H, HT, f_name);
-					if (ret == SUCCESS)
+					if (flag == 1)		//Update Database can be called only after the Database has been created.
 					{
-						printf (GREEN "INFO: Database Update Successful.\n" RESET);
+						char f_name [NAMELENGTH];
+						printf (PURPLE "INPUT: Enter the File Name to be Updated in the Database: " RESET);
+						scanf ("%s", f_name);	//To read the File Name to be updated in the Database.
+						
+						ret = update_DB (&files_H, HT, f_name);
+						if (ret == SUCCESS)
+						{
+							printf (GREEN "INFO: Database Update Successful.\n" RESET);
+						}
+					}
+					else
+					{
+						printf (RED "ERROR: Create Database Operation shall be called before trying to call the Update Database Operation.\n" RESET);
 					}
 				}
 				break;
