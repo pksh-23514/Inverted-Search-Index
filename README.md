@@ -1,4 +1,4 @@
-# Inverted-Search-Index
+# Inverted Search Index
 
 ## Abstract:
 An inverted index is an index data structure storing a mapping from content, such as words or
